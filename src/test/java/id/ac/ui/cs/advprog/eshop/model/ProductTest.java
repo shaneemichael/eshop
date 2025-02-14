@@ -1,6 +1,7 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,16 +18,33 @@ class ProductTest {
 
     @Test
     void testGetProductId() {
-        assertEquals("eb558e9f-1c39-460e-8860-71af6af63bd6", this.product.getProductId());
+        assertEquals("eb558e9f-1c39-460e-8860-71af6af63bd6", product.getProductId());
     }
 
     @Test
     void testGetProductName() {
-        assertEquals("Sampo Cap Bambang", this.product.getProductName());
+        assertEquals("Sampo Cap Bambang", product.getProductName());
     }
 
     @Test
     void testGetProductQuantity() {
-        assertEquals(100, this.product.getProductQuantity());
+        assertEquals(100, product.getProductQuantity());
     }
+
+    @Test
+    void testGetProductIdFailure() {
+        assertNotEquals("aaaaaaaa-1c39-460e-8860-71af6af63bd6", product.getProductId());
+    }
+
+    @Test
+    void testGetProductNameFailure() {
+        assertNotEquals("Sampo Cap Budi", product.getProductName());
+    }
+
+    @Test
+    void testGetProductQuantityFailure() {
+        assertNotEquals(33, product.getProductQuantity());
+    }
+
+
 }
