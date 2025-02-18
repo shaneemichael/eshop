@@ -10,9 +10,9 @@ on:
   # To guarantee Maintained check is occasionally updated. See
   # https://github.com/ossf/scorecard/blob/main/docs/checks.md#maintained
   schedule:
-    - cron: '28 14 * * 0'
+    - cron: '40 7 * * 1'
   push:
-    branches: [ "master" ]
+    branches: [ "main" ]
 
 # Declare default permissions as read only.
 permissions: read-all
@@ -59,9 +59,9 @@ jobs:
       # Upload the results as artifacts (optional). Commenting out will disable uploads of run results in SARIF
       # format to the repository Actions tab.
       - name: "Upload artifact"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: SARIF-file
+          name: SARIF file
           path: results.sarif
           retention-days: 5
 
