@@ -199,11 +199,6 @@ class CreateProductFunctionalTest {
         return driver.findElement(By.id(fieldId)).getAttribute("value");
     }
 
-    private void assertFormAction(ChromeDriver driver, String expectedAction) {
-        String formAction = driver.findElement(By.tagName("form")).getAttribute("action");
-        assertEquals(expectedAction, formAction);
-    }
-
     private boolean pageSourceContains(ChromeDriver driver, String expectedContent) {
         String pageSource = driver.getPageSource();
         return pageSource.contains(expectedContent);
