@@ -1,6 +1,6 @@
 package id.ac.ui.cs.advprog.eshop.functional;
 
-import io.github.bonigarcia.seljup.SeleniumJupiter;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -8,10 +8,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import io.github.bonigarcia.seljup.SeleniumJupiter;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ExtendWith(SeleniumJupiter.class)
@@ -30,7 +30,7 @@ class HomePageFunctionalTest {
     }
 
     @Test
-    void pageTitle_isCorrect(ChromeDriver driver) throws Exception {
+    void pageTitle_isCorrect(ChromeDriver driver) {
         driver.get(baseUrl);
         String pageTitle = driver.getTitle();
 
@@ -38,7 +38,7 @@ class HomePageFunctionalTest {
     }
 
     @Test
-    void welcomeMessage_homePage_isCorrect(ChromeDriver driver) throws Exception {
+    void welcomeMessage_homePage_isCorrect(ChromeDriver driver) {
         driver.get(baseUrl);
         String welcomeMessage = driver.findElement(By.tagName("h3")).getText();
 
