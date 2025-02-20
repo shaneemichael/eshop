@@ -8,10 +8,19 @@ plugins {
     jacoco
     id("org.springframework.boot") version "3.2.2"
     id("io.spring.dependency-management") version "1.1.4"
+    id("org.sonarqube") version "6.0.1.5171"
 }
 
 group = "id.ac.ui.cs.advprog"
 version = "0.0.1-SNAPSHOT"
+
+sonar {
+    properties {
+        property("sonar.projectKey", "shaneemichael_eshop")
+        property("sonar.organization", "shanemichael1401")
+        property("sonar.host.url", "https://sonarcloud.io")
+    }
+}
 
 java {
     toolchain {
@@ -78,4 +87,12 @@ tasks.register<Test>("functionalTest") {
 
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports{
+        xml.required = true
+        html.required = true
+    }
 }
