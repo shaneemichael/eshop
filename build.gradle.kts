@@ -88,3 +88,11 @@ tasks.register<Test>("functionalTest") {
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
 }
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports{
+        xml.required = true
+        html.required = true
+    }
+}
