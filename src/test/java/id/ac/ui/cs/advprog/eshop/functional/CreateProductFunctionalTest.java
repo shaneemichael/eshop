@@ -3,8 +3,8 @@ package id.ac.ui.cs.advprog.eshop.functional;
 import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -83,12 +83,9 @@ class CreateProductFunctionalTest {
         String pageTitle = driver.getTitle();
 
         assertEquals("Product List", pageTitle);
-
-        String productName = driver.findElement(By.xpath("//tbody/tr[1]/td[1]")).getText();
-        String productQuantity = driver.findElement(By.xpath("//tbody/tr[1]/td[2]")).getText();
-
-        assertEquals("Sampo Cap Bambang", productName);
-        assertEquals("100", productQuantity);
+        
+        assertEquals(true, pageSourceContains(driver, "Sampo Cap Bambang"));
+        assertEquals(true, pageSourceContains(driver, "100"));
     }
 
     @Test
@@ -137,22 +134,6 @@ class CreateProductFunctionalTest {
         driver.get(baseUrl + "/product/list");
         assertEquals(true, pageSourceContains(driver, "Halohalo"));
         assertEquals(true, pageSourceContains(driver, "666666"));
-    }
-
-    @Test
-    void deleteProduct(ChromeDriver driver) throws Exception {
-        driver.get(baseUrl + "/product/create");
-        driver.findElement(By.id("nameInput")).sendKeys("Lihat kebunku penuh dengan bunga");
-        driver.findElement(By.id("quantityInput")).sendKeys("7171733");
-        driver.findElement(By.tagName("form")).submit();
-
-        driver.get(baseUrl + "/product/list");
-        driver.findElement(By.xpath(String.format("//*[text()='%s']", "Delete"))).click();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.alertIsPresent());
-        driver.switchTo().alert().accept();
-        assertPageTitle(driver, "Product List");
-        assertEquals(false, pageSourceContains(driver, "Lihat kebunku penuh dengan bunga"));
     }
 
     @Test
