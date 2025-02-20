@@ -1,4 +1,17 @@
-### Reflection 1 ###
+# Reflection of Advanced Programming
+### Name: Shane Michael Tanata Tendy
+### NPM: 2306259976
+### Class: B
+
+----
+
+[Reflection 1](#reflection-1)
+[Reflection 2](#reflection-2)
+[Reflection 3 (Module 2 Reflection)](#reflection-3-module-2-reflection)
+
+---
+
+### Reflection 1 
 
 In implementing the edit and delete product features, I made sure to follow clean code principles and secure coding practices, as taught by Dr. Ade Azurat and in the SCELE coding standards module. I kept methods simple, each focused on one task, and separated the code into different layers (controller, service, and repository) following the approach from the tutorial for creating products. This makes the code easier to read, test, and maintain. I also used clear and consistent names for methods, which makes it easy for others to understand their purpose. 
 
@@ -6,7 +19,7 @@ For security, I focused on checking inputs and handling data safely. For example
 
 However, I was confused on the last several commits since the functional test required me to make an additional home page, which made me create a new branch `homepage`, and from there, I think my commit step is a little bit messy, which can be seen from two merge requests from unit-test. For next time, I will make sure that I read all of the tasks first before starting to code so the commit flow will be much better.
 
-### Reflection 2 ###
+### Reflection 2 
 
 #### After writing the unit test, how do you feel? How many unit tests should be made in a class? How to make sure that our unit tests are enough to verify our program? It would be good if you learned about code coverage. Code coverage is a metric that can help you understand how much of your source is tested. If you have 100% code coverage, does that mean your code has no bugs or errors? ####
 
@@ -26,7 +39,7 @@ Moreover, If the new test suite is too similar to the old one, it may lead to te
 
 The improvements that can be made is you can create a base test class with common setup code and have your functional tests extend this base class. This allows you to keep the setup DRY and makes it easier to update in the future. Also, for verifying the product list size, you should add tests that not only check the normal case but also edge cases such as when the list is empty, when there are duplicate products, etc.
 
-### Reflection 3 (Module 2 Reflection) ###
+### Reflection 3 (Module 2 Reflection) 
 #### List the code quality issue(s) that you fixed during the exercise and explain your strategy on fixing them. ####
 
 1. I started by removing unused imports and functions in my code, such as:
