@@ -6,7 +6,9 @@
 ----
 
 [Reflection 1](#reflection-1)
+
 [Reflection 2](#reflection-2)
+
 [Reflection 3 (Module 2 Reflection)](#reflection-3-module-2-reflection)
 
 ---
@@ -43,13 +45,13 @@ The improvements that can be made is you can create a base test class with commo
 #### List the code quality issue(s) that you fixed during the exercise and explain your strategy on fixing them. ####
 
 1. I started by removing unused imports and functions in my code, such as:
-    ```
+    ```java
     // HomePageFunctionalTest.java
 
     import net.bytebuddy.asm.Advice;
     ```
 
-    ```
+    ```java
     // CreateProductFunctionalTest.java
 
     private void assertFormAction(ChromeDriver driver, String expectedAction) {
@@ -58,7 +60,7 @@ The improvements that can be made is you can create a base test class with commo
     }
     ```
 
-    ```
+    ```java
     // HomePageFunctionalTest.java
 
     import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -66,7 +68,7 @@ The improvements that can be made is you can create a base test class with commo
 
 2. I also reconfigured `dependencies` in `build.gradle.kts`
     Previously:
-    ```
+    ```java
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-validation")
         implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
@@ -86,7 +88,7 @@ The improvements that can be made is you can create a base test class with commo
     ```
 
     After reconfiguration:
-    ```
+    ```java
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-validation")
         implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
@@ -106,7 +108,7 @@ The improvements that can be made is you can create a base test class with commo
     ```
 3. I also removed the modifiers in `Product.java` a.k.a. the model
     Previously:
-    ```
+    ```java
     public interface ProductService {
         public Product create(Product product);
         public List<Product> findAll();
@@ -117,7 +119,7 @@ The improvements that can be made is you can create a base test class with commo
     ```
 
     After changes:
-    ```
+    ```java
     public interface ProductService {
         Product create(Product product);
         List<Product> findAll();
@@ -129,21 +131,21 @@ The improvements that can be made is you can create a base test class with commo
 
 4. For the `SetUp` function that I did not use in the test, I left a comment to make it clear to the reader. For example:
     Previously:
-    ```
+    ```java
     void setUp() {
         
     }
     ```
 
     After changes:
-    ```
+    ```java
     void setUp() {
         // This function is intentionally left empty, as no setup is needed
     }
     ```
 
 5. Added `findById` function in `ProductService.java`, `ProductServiceImpl.java`, and `ProductRepository.java` for tidier code
-    ```
+    ```java
     // ProductRepository.java
 
     public Product findById(String id) {
@@ -156,7 +158,7 @@ The improvements that can be made is you can create a base test class with commo
     }
     ```
 
-    ```
+    ```java
     // ProductService.java
 
     Product findById(String id);
