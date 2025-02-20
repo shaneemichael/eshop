@@ -23,6 +23,7 @@ class ProductRepositoryTest {
 
     @BeforeEach
     void setUp() {
+        // This function is intentionally left empty, as no setup is needed
     }
 
     @Test
