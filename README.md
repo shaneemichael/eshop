@@ -164,7 +164,7 @@ The improvements that can be made is you can create a base test class with commo
     Product findById(String id);
     ```
 
-    ```
+    ```java
     // ProductServiceImpl.java
 
      @Override
@@ -174,7 +174,7 @@ The improvements that can be made is you can create a base test class with commo
     ```
 6. Added variables in `ProductController.java` for redirect URL to remove redundancy
     Previously:
-    ```
+    ```java
     @PostMapping("/edit/{id}")
     public String editProductPost(@PathVariable("id") String id, @ModelAttribute Product product, Model model) {
         product.setProductId(id);
@@ -190,7 +190,7 @@ The improvements that can be made is you can create a base test class with commo
     ```
 
     After changes:
-    ```
+    ```java
     private final String REDIRECT_LIST = "redirect:/product/list";
     ...
     @PostMapping("/edit/{id}")
