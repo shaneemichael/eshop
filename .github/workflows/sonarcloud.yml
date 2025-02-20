@@ -28,11 +28,7 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
 
-      - name: Add gradlew permission
-        run: chmod +x gradlew
-
-      - name: Build and Analyze with SonarCloud
+      - name: Build and analyze
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run:
-          ./gradlew build sonar --info
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: chmod +x gradlew && ./gradlew build jacocoTestReport sonar -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml --info
