@@ -19,7 +19,7 @@ import id.ac.ui.cs.advprog.eshop.service.ProductService;
 public class ProductController {
 
     private final ProductService service;
-    private final String redirectList = "redirect:/product/list";
+    private static final String redirectList = "redirect:/product/list";
 
     public ProductController(ProductService service) {
         this.service = service;
