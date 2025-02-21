@@ -19,7 +19,7 @@ import id.ac.ui.cs.advprog.eshop.service.ProductService;
 public class ProductController {
 
     private final ProductService service;
-    private final String redirectList = "redirect:/product/list";
+    private static final String REDIRECT_PRODUCT_LIST = "redirect:/product/list";
 
     public ProductController(ProductService service) {
         this.service = service;
@@ -57,12 +57,12 @@ public class ProductController {
     public String editProductPost(@PathVariable("id") String id, @ModelAttribute Product product, Model model) {
         product.setProductId(id);
         service.edit(product);
-        return redirectList;
+        return REDIRECT_PRODUCT_LIST;
     }
 
     @PostMapping("/delete/{id}")
     public String deleteProduct(@PathVariable("id") String id) {
         service.delete(id);
-        return redirectList;
+        return REDIRECT_PRODUCT_LIST;
     }
 }
