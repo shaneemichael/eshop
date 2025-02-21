@@ -144,34 +144,40 @@ The improvements that can be made is you can create a base test class with commo
     }
     ```
 
-5. Added `findById` function in `ProductService.java`, `ProductServiceImpl.java`, and `ProductRepository.java` for tidier code
+5. Remove `public` modifier in `HomeControllerTest.java` and `ProductControllerTest.java`
+    Previously:
     ```java
-    // ProductRepository.java
+    // HomeControllerTest.java
 
-    public Product findById(String id) {
-        for (Product product : productData) {
-            if (product.getProductId().equals(id)) {
-                return product;
-            }
-        }
-        return null;
+    public class HomeControllerTest {
+        ...
+    }
+    ```
+    ```java
+    // ProductControllerTest.java
+
+    public class ProductControllerTest {
+        ...
     }
     ```
 
+    After changes:
     ```java
-    // ProductService.java
+    // HomeControllerTest.java
 
-    Product findById(String id);
-    ```
-
-    ```java
-    // ProductServiceImpl.java
-
-     @Override
-    public Product findById(String id) {
-        return productRepository.findById(id);
+    class HomeControllerTest {
+        ...
     }
     ```
+    ```java
+    // ProductControllerTest.java
+
+    class ProductControllerTest {
+        ...
+    }
+    ```
+
+
 6. Added variables in `ProductController.java` for redirect URL to remove redundancy
     Previously:
     ```java
@@ -191,19 +197,19 @@ The improvements that can be made is you can create a base test class with commo
 
     After changes:
     ```java
-    private final String REDIRECT_LIST = "redirect:/product/list";
+    private static final String REDIRECT_PRODUCT_LIST = "redirect:/product/list";
     ...
     @PostMapping("/edit/{id}")
     public String editProductPost(@PathVariable("id") String id, @ModelAttribute Product product, Model model) {
         product.setProductId(id);
         service.edit(product);
-        return REDIRECT_LIST;
+        return REDIRECT_PRODUCT_LIST;
     }
 
     @PostMapping("/delete/{id}")
     public String deleteProduct(@PathVariable("id") String id) {
         service.delete(id);
-        return REDIRECT_LIST;
+        return REDIRECT_PRODUCT_LIST;
     }
     ```
 
