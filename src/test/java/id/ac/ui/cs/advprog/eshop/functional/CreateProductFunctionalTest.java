@@ -38,7 +38,7 @@ class CreateProductFunctionalTest {
     }
 
     @Test
-    void createProduct_isSuccessful(ChromeDriver driver) throws Exception {
+    void createProduct_isSuccessful(ChromeDriver driver) {
         // Exercise: Navigate to Create Product page
         driver.get(baseUrl + "/product/create");
 
@@ -67,7 +67,7 @@ class CreateProductFunctionalTest {
     }
 
     @Test
-    void createProductPage_isCorrect(ChromeDriver driver) throws Exception {
+    void createProductPage_isCorrect(ChromeDriver driver) {
         driver.get(baseUrl + "/product/create");
         String pageTitle = driver.getTitle();
 
@@ -75,7 +75,7 @@ class CreateProductFunctionalTest {
     }
 
     @Test
-    void createProductPost_isCorrect(ChromeDriver driver) throws Exception {
+    void createProductPost_isCorrect(ChromeDriver driver) {
         driver.get(baseUrl + "/product/create");
         driver.findElement(By.id("nameInput")).sendKeys("Sampo Cap Bambang");
         driver.findElement(By.id("quantityInput")).sendKeys("100");
@@ -89,7 +89,7 @@ class CreateProductFunctionalTest {
     }
 
     @Test
-    void editProductPage_isDisplayed(ChromeDriver driver) throws Exception {
+    void editProductPage_isDisplayed(ChromeDriver driver) {
         driver.get(baseUrl + "/product/create");
         driver.findElement(By.id("nameInput")).sendKeys("Hulahup Domba Hitam");
         driver.findElement(By.id("quantityInput")).sendKeys("369");
@@ -100,7 +100,7 @@ class CreateProductFunctionalTest {
     }
 
     @Test
-    void editProductPage_hasCorrectFormFields(ChromeDriver driver) throws Exception {
+    void editProductPage_hasCorrectFormFields(ChromeDriver driver) {
         driver.get(baseUrl + "/product/create");
         driver.findElement(By.id("nameInput")).sendKeys("Hulahup Domba Hitam");
         driver.findElement(By.id("quantityInput")).sendKeys("369");
@@ -116,7 +116,7 @@ class CreateProductFunctionalTest {
     }
 
     @Test
-    void editProductPage_canEditProduct(ChromeDriver driver) throws Exception {
+    void editProductPage_canEditProduct(ChromeDriver driver) {
         driver.get(baseUrl + "/product/create");
         driver.findElement(By.id("nameInput")).sendKeys("Hulahup Domba Hitam");
         driver.findElement(By.id("quantityInput")).sendKeys("369");
@@ -137,7 +137,7 @@ class CreateProductFunctionalTest {
     }
 
     @Test
-    void deleteLastProduct(ChromeDriver driver) throws Exception {
+    void deleteLastProduct(ChromeDriver driver) {
         driver.get(baseUrl + "/product/create");
         driver.findElement(By.id("nameInput")).sendKeys("Baju Three Little Pigs");
         driver.findElement(By.id("quantityInput")).sendKeys("7171733");
@@ -159,7 +159,7 @@ class CreateProductFunctionalTest {
     }
 
     @Test
-    void deleteEditedProduct(ChromeDriver driver) throws Exception {
+    void deleteEditedProduct(ChromeDriver driver) {
         driver.get(baseUrl + "/product/create");
         driver.findElement(By.id("nameInput")).sendKeys("Pokemon");
         driver.findElement(By.id("quantityInput")).sendKeys("7171733");
@@ -197,11 +197,6 @@ class CreateProductFunctionalTest {
 
     private String getFormFieldValue(ChromeDriver driver, String fieldId) {
         return driver.findElement(By.id(fieldId)).getAttribute("value");
-    }
-
-    private void assertFormAction(ChromeDriver driver, String expectedAction) {
-        String formAction = driver.findElement(By.tagName("form")).getAttribute("action");
-        assertEquals(expectedAction, formAction);
     }
 
     private boolean pageSourceContains(ChromeDriver driver, String expectedContent) {
