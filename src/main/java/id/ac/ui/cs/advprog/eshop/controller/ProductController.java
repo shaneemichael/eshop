@@ -3,7 +3,6 @@ package id.ac.ui.cs.advprog.eshop.controller;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,10 +18,12 @@ import id.ac.ui.cs.advprog.eshop.service.ProductService;
 @RequestMapping("/product")
 public class ProductController {
 
-    @Autowired
-    private ProductService service;
+    private final ProductService service;
+    private final String redirectList = "redirect:/product/list";
 
-    private final String REDIRECT_LIST = "redirect:/product/list";
+    public ProductController(ProductService service) {
+        this.service = service;
+    }
 
     @GetMapping("/create")
     public String createProductPage(Model model) {
@@ -56,12 +57,12 @@ public class ProductController {
     public String editProductPost(@PathVariable("id") String id, @ModelAttribute Product product, Model model) {
         product.setProductId(id);
         service.edit(product);
-        return REDIRECT_LIST;
+        return redirectList;
     }
 
     @PostMapping("/delete/{id}")
     public String deleteProduct(@PathVariable("id") String id) {
         service.delete(id);
-        return REDIRECT_LIST;
+        return redirectList;
     }
 }
