@@ -16,12 +16,13 @@ public abstract class AbstractRepository<T, ID> implements GeneralRepository<T, 
     
     protected final List<T> data = new ArrayList<>();
     protected final Function<T, ID> idExtractor;
-    protected final Predicate<T> idFilter(ID id) {
-        return entity -> idExtractor.apply(entity).equals(id);
-    }
     
     protected AbstractRepository(Function<T, ID> idExtractor) {
         this.idExtractor = idExtractor;
+    }
+    
+    protected Predicate<T> idFilter(ID id) {
+        return entity -> idExtractor.apply(entity).equals(id);
     }
     
     @Override
