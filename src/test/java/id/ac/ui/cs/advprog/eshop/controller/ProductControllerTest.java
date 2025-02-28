@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ class ProductControllerTest {
                         .param("name", "Test Product")
                         .param("price", "100"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:list"));
+                .andExpect(view().name("redirect:/product/list"));
 
         verify(productService).create(any(Product.class));
     }
@@ -88,24 +89,25 @@ class ProductControllerTest {
     void testEditProductPost() throws Exception {
         String id = "1";
         Product updatedProduct = new Product(id, "Product 1", 200);
-        when(productService.edit(any(Product.class))).thenReturn(updatedProduct);
+        
+        when(productService.update(eq(id), any(Product.class))).thenReturn(updatedProduct);
 
         mockMvc.perform(post("/product/edit/{id}", id)
-                        .param("name", "Product 1")
-                        .param("price", "200"))
+                        .param("productName", "Product 1")  // Make sure param names match your model
+                        .param("productQuantity", "200"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/product/list"));
 
-        verify(productService).edit(any(Product.class));
+        verify(productService).update(eq(id), any(Product.class));
     }
 
     @Test
     void testDeleteProduct() throws Exception {
         String id = "1";
         Product product = new Product(id, "Product 1", 100);
-        when(productService.delete(id)).thenReturn(product);
+        when(productService.delete(id)).thenReturn(true);
 
-        mockMvc.perform(post("/product/delete/{id}", id))
+        mockMvc.perform(get("/product/delete/{id}", id))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/product/list"));
 

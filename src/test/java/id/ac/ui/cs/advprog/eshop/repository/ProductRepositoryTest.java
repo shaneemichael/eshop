@@ -114,7 +114,7 @@ class ProductRepositoryTest {
         updatedProduct.setProductName("Testing 2");
         updatedProduct.setProductQuantity(8);
 
-        Product result = productRepository.edit(updatedProduct);
+        Product result = productRepository.update(updatedProduct.getProductId(), updatedProduct);
         assertNotNull(result);
         assertEquals("Testing 2", result.getProductName());
         assertEquals(8, result.getProductQuantity());
@@ -133,7 +133,7 @@ class ProductRepositoryTest {
         updatedProduct.setProductName("GOAT");
         updatedProduct.setProductQuantity(7);
 
-        Product result = productRepository.edit(updatedProduct);
+        Product result = productRepository.update(updatedProduct.getProductId(), updatedProduct);
         assertNull(result);
     }
 

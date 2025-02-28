@@ -60,7 +60,7 @@ public class CarController extends BaseController<Car, String, CarService> {
     }
 
     @GetMapping("/deleteCar/{carId}")
-    public String deleteCar(@PathVariable("id") String carId, RedirectAttributes redirectAttributes) {
+    public String deleteCar(@PathVariable("carId") String carId, RedirectAttributes redirectAttributes) {
         service.delete(carId);
         return REDIRECT_CAR_LIST;
     }

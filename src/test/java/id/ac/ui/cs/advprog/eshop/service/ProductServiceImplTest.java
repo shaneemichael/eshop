@@ -6,6 +6,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -74,23 +75,22 @@ class ProductServiceImplTest {
 
     @Test
     void editProduct_ShouldReturnUpdatedProduct() {
-        when(productRepository.edit(product)).thenReturn(product);
+        when(productRepository.update(product.getProductId(), product)).thenReturn(product);
 
-        Product updatedProduct = productService.edit(product);
+        Product updatedProduct = productService.update(product.getProductId(), product);
 
         assertNotNull(updatedProduct);
         assertEquals("Test Product", updatedProduct.getProductName());
-        verify(productRepository, times(1)).edit(product);
+        verify(productRepository, times(1)).update(product.getProductId(), product);
     }
 
     @Test
     void deleteProduct_ShouldReturnDeletedProduct() {
-        when(productRepository.delete("1")).thenReturn(product);
+        when(productRepository.delete("1")).thenReturn(true);
+        Boolean res = productService.delete("1");
 
-        Product deletedProduct = productService.delete("1");
-
-        assertNotNull(deletedProduct);
-        assertEquals("Test Product", deletedProduct.getProductName());
+        assertTrue(res);
+        verify(productRepository, times(1)).delete("1");
         verify(productRepository, times(1)).delete("1");
     }
 }
