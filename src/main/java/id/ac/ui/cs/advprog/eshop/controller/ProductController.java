@@ -1,7 +1,6 @@
 package id.ac.ui.cs.advprog.eshop.controller;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,60 +9,68 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import id.ac.ui.cs.advprog.eshop.model.Product;
 import id.ac.ui.cs.advprog.eshop.service.ProductService;
 
 @Controller
 @RequestMapping("/product")
-public class ProductController {
+public class ProductController extends BaseController<Product, String, ProductService> {
 
-    private final ProductService service;
     private static final String REDIRECT_PRODUCT_LIST = "redirect:/product/list";
+    private static final String PRODUCT_NOT_FOUND = "Product not found";
 
     public ProductController(ProductService service) {
-        this.service = service;
+        super(service);
     }
 
     @GetMapping("/create")
     public String createProductPage(Model model) {
-        Product product = new Product();
-        model.addAttribute("product", product);
+        model.addAttribute("product", new Product());
         return "CreateProduct";
     }
 
     @PostMapping("/create")
-    public String createProductPost(@ModelAttribute Product product, Model model) {
-        product.setProductId(UUID.randomUUID().toString());
+    public String createProductPost(@ModelAttribute Product product) {
         service.create(product);
-        return "redirect:list";
+        return REDIRECT_PRODUCT_LIST;
     }
 
     @GetMapping("/list")
     public String productListPage(Model model) {
         List<Product> allProducts = service.findAll();
-        model.addAttribute("products", allProducts);
+        addEntitiesToModel(model, allProducts, "products");
         return "ProductList";
     }
 
     @GetMapping("/edit/{id}")
-    public String editProductPage(@PathVariable("id") String id, Model model) {
-        Product product = service.findById(id);
-        model.addAttribute("product", product);
-        return "EditProduct";
+    public String editProductPage(@PathVariable("id") String id, Model model, RedirectAttributes redirectAttributes) {
+        return service.findById(id)
+                .map(product -> {
+                    model.addAttribute("product", product);
+                    return "EditProduct";
+                })
+                .orElseGet(() -> handleNotFound(id, redirectAttributes, REDIRECT_PRODUCT_LIST));
     }
 
     @PostMapping("/edit/{id}")
-    public String editProductPost(@PathVariable("id") String id, @ModelAttribute Product product, Model model) {
-        product.setProductId(id);
-        service.edit(product);
-        return REDIRECT_PRODUCT_LIST;
+    public String editProductPost(@PathVariable("id") String id, @ModelAttribute Product product, 
+                                  RedirectAttributes redirectAttributes) {
+        return service.update(id, product)
+                .map(updatedProduct -> REDIRECT_PRODUCT_LIST)
+                .orElseGet(() -> {
+                    redirectAttributes.addFlashAttribute("errorMessage", PRODUCT_NOT_FOUND);
+                    return REDIRECT_PRODUCT_LIST;
+                });
     }
 
-    @PostMapping("/delete/{id}")
-    public String deleteProduct(@PathVariable("id") String id) {
-        service.delete(id);
+    @GetMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable("id") String id, RedirectAttributes redirectAttributes) {
+        boolean deleted = service.delete(id);
+        if (!deleted) {
+            redirectAttributes.addFlashAttribute("errorMessage", PRODUCT_NOT_FOUND);
+        }
         return REDIRECT_PRODUCT_LIST;
     }
 }
-
