@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import id.ac.ui.cs.advprog.eshop.model.Car;
@@ -66,7 +65,7 @@ public class CarController extends BaseController<Car, String, CarService> {
     }
 
     @GetMapping("/deleteCar/{carId}")
-    public String deleteCar(@RequestParam("carId") String carId, RedirectAttributes redirectAttributes) {
+    public String deleteCar(@PathVariable("id") String carId, RedirectAttributes redirectAttributes) {
         boolean deleted = service.delete(carId);
         if (!deleted) {
             redirectAttributes.addFlashAttribute("errorMessage", CAR_NOT_FOUND);
