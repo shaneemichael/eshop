@@ -11,6 +11,8 @@
 
 [Reflection 3 (Module 2 Reflection)](#reflection-3-module-2-reflection)
 
+[Reflection 4 (Module 3 Reflection)](#reflection-4-module-3-reflection)
+
 ---
 
 ### Reflection 1 
@@ -216,3 +218,51 @@ The improvements that can be made is you can create a base test class with commo
 #### Look at your CI/CD workflows (GitHub)/pipelines (GitLab). Do you think the current implementation has met the definition of Continuous Integration and Continuous Deployment? Explain the reasons (minimum 3 sentences)! ####
 
 My current CI/CD implementation meets the definition of Continuous Integration and Continuous Deployment. The CI pipeline runs unit tests, checks supply chain security, and performs static code analysis with ci.yml, scorecard.yml, and sonarcloud.yml to ensure code quality and prevent regressions. These workflows guarantee that each change is validated before merging, ensuring consistency in the development process. On the CD side, every update to the main branch triggers an automatic deployment to Koyeb, ensuring fast and reliable delivery to production. The pipeline stops deployments if any tests fail, preventing broken code from being released. This automated process eliminates human errors and ensures that only thoroughly tested code is deployed. By automating these steps, the CI/CD implementation supports a stable, efficient, and secure release process.
+
+### Reflection 4 (Module 3 Reflection) ###
+#### Explain what principles you apply to your project! ####
+1. Single Responsibility Principle (SRP)
+    - I have seperated the code into distinct layers, such as controllers, services, repositories, and models.
+    - For each of them, I also divided it into many classes, each with focused purpose. For example, `CarRepository` only handles car data persistence.
+    - I have extracted common functionality into base classes like AbstractRepository and BaseController.
+2. Open/Closed Principle (OCP)
+    - My `AbstractRepository<T, ID>` is open for extension but closed for modification.
+    - I use inheritance in almost all of my code, which is to extend functionality without changing existing code (even though I changed it a lot tho XD).
+    - I have implemented template methods that can be customized by subclasses.
+3. Liskov Substitution Principle (LSP)
+    - My repository implement common interfaces and can be substituted for each other.
+    - Child classes like `CarRepository` and `ProductRepository` maintain the contract defined by their interfaces.
+4. Interface Segregation Principle (ISP)
+    - I have created specific interfaces like `ProductRepositoryInterface` and `CarRepositoryInterface`.
+    - I use `IdGenerator` interface, which has a single method, keeping it focused.
+5. Dependency Inversion Principle (DIP)
+    - My Controllers depend on service interfaces rather than concrete implementations.
+    - I have used constructor injection. For example, `public CarController(CarService carService)`.
+    - Your CarRepository depends on the IdGenerator abstraction, not concrete implementations.
+
+#### Explain the advantages of applying SOLID principles to your project with examples. ####
+1. Enhanced Maintainability
+    - `AbstractRepository` can be reused across different entity types, which is reducing code duplication.
+    - Regarding `UUID`, if I need to change ID generation logic, I only need to modify the `UuidGenerator` implementation.
+2. Improved Testability
+    - My constructor dependency injection makes it easy to mock dependencies in tests.
+    - Your interfaces allow for test doubles, as seen in `ProductControllerTest` where you mock the `ProductService`.
+3. Better Extensibility
+    - Adding new entity types (like Car) became easier because you could reuse the repository pattern.
+    - You can easily swap implementation details (like switching ID generation strategy) without breaking client code.
+4. Clearer Code Organization
+    - Your code has a predictable structure with clear responsibilities.
+    - Separation of concerns makes code easier to understand (e.g., controllers handle HTTP, services handle business logic)
+
+#### Explain the disadvantages of not applying SOLID principles to your project with examples. ####
+1. Increased Coupling
+    - Without DIP, changes to repositories would require changes in multiple controllers.
+    - By refactoring from direct usage to abstractions, I have already prevented this problem (increased coupling).
+2. Code Duplication
+    - If I don't use `AbstractRepository`, I would have duplicate CRUD operations in every repository. This would increase maintenance burden and risk of inconsistent implementations.
+3. Decreased Testability
+    - Without constructor injection, testing controllers would require complex setup with real services.
+    - My current approach allows for simple mocking as seen in `ProductControllerTest`.
+4. Rigid Architecture
+    - Without interfaces, changing implementation details (like switching from in-memory to database storage) would be difficult
+    - My current approach with interfaces allows for such changes without affecting client code
