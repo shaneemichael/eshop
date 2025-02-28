@@ -1,7 +1,4 @@
 package id.ac.ui.cs.advprog.eshop.repository;
-
-import java.util.Optional;
-
 import org.springframework.stereotype.Repository;
 
 import id.ac.ui.cs.advprog.eshop.model.Car;
@@ -29,10 +26,14 @@ public class CarRepository extends AbstractRepository<Car, String> implements Ca
     }
     
     @Override
-    public Optional<Car> update(String id, Car updatedCar) {
-        return findById(id).map(existingCar -> {
-            existingCar.update(updatedCar);
+    public Car update(String id, Car updatedCar) {
+        Car existingCar = findById(id);
+        if (existingCar != null) {
+            existingCar.setCarName(updatedCar.getCarName());
+            existingCar.setCarColor(updatedCar.getCarColor());
+            existingCar.setCarQuantity(updatedCar.getCarQuantity());
             return existingCar;
-        });
+        }
+        return null;
     }
 }

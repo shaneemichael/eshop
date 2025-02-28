@@ -35,12 +35,12 @@ public abstract class AbstractService<T, ID, R extends GeneralRepository<T, ID>>
     }
     
     @Override
-    public Optional<T> findById(ID id) {
+    public T findById(ID id) {
         return repository.findById(id);
     }
     
     @Override
-    public Optional<T> update(ID id, T entity) {
+    public T update(ID id, T entity) {
         return repository.update(id, entity);
     }
     

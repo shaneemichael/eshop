@@ -3,7 +3,6 @@ package id.ac.ui.cs.advprog.eshop.repository;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -37,10 +36,13 @@ public abstract class AbstractRepository<T, ID> implements GeneralRepository<T, 
     }
     
     @Override
-    public Optional<T> findById(ID id) {
-        return data.stream()
-                .filter(idFilter(id))
-                .findFirst();
+    public T findById(ID id) {
+        for(T entity : data) {
+            if(idExtractor.apply(entity).equals(id)) {
+                return entity;
+            }
+        }
+        return null;
     }
     
     @Override

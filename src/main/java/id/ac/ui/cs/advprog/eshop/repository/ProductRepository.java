@@ -1,7 +1,5 @@
 package id.ac.ui.cs.advprog.eshop.repository;
 
-import java.util.Optional;
-
 import org.springframework.stereotype.Repository;
 
 import id.ac.ui.cs.advprog.eshop.model.Product;
@@ -29,11 +27,13 @@ public class ProductRepository extends AbstractRepository<Product, String> imple
     }
     
     @Override
-    public Optional<Product> update(String id, Product updatedProduct) {
-        return findById(id).map(existingProduct -> {
+    public Product update(String id, Product updatedProduct) {
+        Product existingProduct = findById(id);
+        if (existingProduct != null) {
             existingProduct.setProductName(updatedProduct.getProductName());
             existingProduct.setProductQuantity(updatedProduct.getProductQuantity());
             return existingProduct;
-        });
+        }
+        return null;
     }
 }

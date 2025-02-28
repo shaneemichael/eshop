@@ -1,7 +1,6 @@
 package id.ac.ui.cs.advprog.eshop.repository;
 
 import java.util.Iterator;
-import java.util.Optional;
 
 /**
  * Generic repository interface for data access operations
@@ -11,7 +10,7 @@ import java.util.Optional;
 public interface GeneralRepository<T, ID> {
     T create(T entity);
     Iterator<T> findAll();
-    Optional<T> findById(ID id);
-    Optional<T> update(ID id, T entity);
+    T findById(ID id);
+    T update(ID id, T entity);
     boolean delete(ID id);
 }

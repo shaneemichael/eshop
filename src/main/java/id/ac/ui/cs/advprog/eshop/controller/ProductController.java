@@ -46,31 +46,22 @@ public class ProductController extends BaseController<Product, String, ProductSe
 
     @GetMapping("/edit/{id}")
     public String editProductPage(@PathVariable("id") String id, Model model, RedirectAttributes redirectAttributes) {
-        return service.findById(id)
-                .map(product -> {
-                    model.addAttribute("product", product);
-                    return "EditProduct";
-                })
-                .orElseGet(() -> handleNotFound(id, redirectAttributes, REDIRECT_PRODUCT_LIST));
+        Product product = service.findById(id);
+        model.addAttribute("product", product);
+        return "EditProduct";
     }
 
     @PostMapping("/edit/{id}")
     public String editProductPost(@PathVariable("id") String id, @ModelAttribute Product product, 
                                   RedirectAttributes redirectAttributes) {
-        return service.update(id, product)
-                .map(updatedProduct -> REDIRECT_PRODUCT_LIST)
-                .orElseGet(() -> {
-                    redirectAttributes.addFlashAttribute("errorMessage", PRODUCT_NOT_FOUND);
-                    return REDIRECT_PRODUCT_LIST;
-                });
+        product.setProductId(id);
+        service.update(product.getProductId(), product);
+        return REDIRECT_PRODUCT_LIST;
     }
 
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable("id") String id, RedirectAttributes redirectAttributes) {
-        boolean deleted = service.delete(id);
-        if (!deleted) {
-            redirectAttributes.addFlashAttribute("errorMessage", PRODUCT_NOT_FOUND);
-        }
+        service.delete(id);
         return REDIRECT_PRODUCT_LIST;
     }
 }

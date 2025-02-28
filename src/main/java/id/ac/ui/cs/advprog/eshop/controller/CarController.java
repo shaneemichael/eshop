@@ -45,31 +45,23 @@ public class CarController extends BaseController<Car, String, CarService> {
     }
 
     @GetMapping("/editCar/{carId}")
-    public String editCarPage(@PathVariable String carId, Model model, RedirectAttributes redirectAttributes) {
-        return service.findById(carId)
-                .map(car -> {
-                    model.addAttribute("car", car);
-                    return "EditCar";
-                })
-                .orElseGet(() -> handleNotFound(carId, redirectAttributes, REDIRECT_CAR_LIST));
+    public String editCarPage(@PathVariable("carId") String carId, Model model, RedirectAttributes redirectAttributes) {
+        Car car = service.findById(carId);
+        model.addAttribute("car", car);
+        return "EditCar";
     }
 
     @PostMapping("/editCar/{carId}")
-    public String editCarPost(@ModelAttribute Car car, RedirectAttributes redirectAttributes) {
-        return service.update(car.getCarId(), car)
-                .map(updatedCar -> REDIRECT_CAR_LIST)
-                .orElseGet(() -> {
-                    redirectAttributes.addFlashAttribute("errorMessage", CAR_NOT_FOUND);
-                    return REDIRECT_CAR_LIST;
-                });
+    public String editCarPost(@PathVariable("carId") String carId, @ModelAttribute Car car, 
+                              RedirectAttributes redirectAttributes) {
+        car.setCarId(carId);
+        service.update(car.getCarId(), car);
+        return REDIRECT_CAR_LIST;
     }
 
     @GetMapping("/deleteCar/{carId}")
     public String deleteCar(@PathVariable("id") String carId, RedirectAttributes redirectAttributes) {
-        boolean deleted = service.delete(carId);
-        if (!deleted) {
-            redirectAttributes.addFlashAttribute("errorMessage", CAR_NOT_FOUND);
-        }
+        service.delete(carId);
         return REDIRECT_CAR_LIST;
     }
 }
