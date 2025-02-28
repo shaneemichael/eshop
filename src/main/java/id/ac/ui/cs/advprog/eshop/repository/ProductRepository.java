@@ -1,52 +1,39 @@
 package id.ac.ui.cs.advprog.eshop.repository;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.springframework.stereotype.Repository;
 
 import id.ac.ui.cs.advprog.eshop.model.Product;
 
 @Repository
-public class ProductRepository {
-    private List<Product> productData = new ArrayList<>();
-
-    public Product create(Product product) {
-        productData.add(product);
-        return product;
-    }
-
-    public Iterator<Product> findAll() {
-        return productData.iterator();
-    }
-
-    public Product findById(String id) {
-        for (Product product : productData) {
-            if (product.getProductId().equals(id)) {
-                return product;
-            }
-        }
-        return null;
+public class ProductRepository extends AbstractRepository<Product, String> implements ProductRepositoryInterface {
+    
+    private final IdGenerator idGenerator;
+    
+    public ProductRepository(IdGenerator idGenerator) {
+        super(Product::getProductId);
+        this.idGenerator = idGenerator;
     }
     
-    public Product edit(Product product) {
-        for(Product p : productData) {
-            if(p.getProductId().equals(product.getProductId())) {
-                p.setProductName(product.getProductName());
-                p.setProductQuantity(product.getProductQuantity());
-                return p;
-            }
+    public ProductRepository() {
+        this(new UuidGenerator());
+    }
+    
+    @Override
+    public Product create(Product product) {
+        if (product.getProductId() == null || product.getProductId().isEmpty()) {
+            product.setProductId(idGenerator.generateId());
+        }
+        return super.create(product);
+    }
+    
+    @Override
+    public Product update(String id, Product updatedProduct) {
+        Product existingProduct = findById(id);
+        if (existingProduct != null) {
+            existingProduct.setProductName(updatedProduct.getProductName());
+            existingProduct.setProductQuantity(updatedProduct.getProductQuantity());
+            return existingProduct;
         }
         return null;
-    }
-
-    public Product delete(String id) {
-        Product temp = productData.stream()
-                .filter(product -> product.getProductId().equals(id))
-                .findFirst()
-                .orElse(null);
-        productData.removeIf(product -> product.getProductId().equals(id));
-        return temp;
     }
 }

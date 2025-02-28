@@ -10,7 +10,9 @@ public class Product {
     private int productQuantity;
 
     public Product() {
-        
+        this.productId = null;
+        this.productName = null;
+        this.productQuantity = 0;
     }
 
     public Product(String productId, String productName, int productQuantity) {
